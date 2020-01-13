@@ -1,4 +1,6 @@
-DROP DATABASE kapperapp;
+--DROP DATABASE kapperapp;
+--DROP USER 'kapper'@'localhost';
+
 CREATE DATABASE kapperapp;
 USE kapperapp;
 
