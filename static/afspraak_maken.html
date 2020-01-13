@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Afspraak maken</title>
+    <!-- <link rel="stylesheet" href="style.css"> -->
+    <script src="js/script.js"></script>
+</head>
+
+<body>
+    <h1>Afspraak maken</h1>
+    <table id="afspraak">
+        <tr>
+            <td><strong>Naam:</strong></td>
+            <td>
+                <input type="text" id="naam" placeholder="Tik hier uw naam" />
+            </td>
+        </tr>
+        <tr>
+            <td><strong>Email:</strong></td>
+            <td>
+                <input type="email" id="email" placeholder="Tik hier uw emailadres" />
+            </td>
+        </tr>
+        <tr>
+            <td><strong>Tijdstip:</strong></td>
+            <td>
+                <input type="datetime-local" id="tijdstip" />
+            </td>
+        </tr>
+    </table>
+    <button onclick="maak_afspraak()">Maak afspraak</button><span id="response"></span>
+</body>
+
+</html>

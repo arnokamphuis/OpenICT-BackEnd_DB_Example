@@ -1,17 +1,25 @@
 import os
-from flask import Flask, g, current_app, jsonify, request
+from flask import Flask, g, current_app, jsonify, request, send_from_directory
 import db
 
 app = Flask(__name__)
 
+@app.route('/<path:path>')
+def send_static(path):
+    return send_from_directory('static', path)
+
+@app.route('/js/<path:path>')
+def send_js(path):
+    return send_from_directory('js', path)
+
 @app.route('/')
 def root():
-    return 'Welkom bij de API van de kappers app!'
+    return send_from_directory('static', 'index.html')
 
 @app.route('/afspraken', methods=['GET'])
 def get_alle_afspraken():
     res = []
-    afspraken = db.execute_sql('SELECT * FROM afspraak')
+    afspraken = db.execute_sql('SELECT * FROM afspraak ORDER BY tijdstip')
     for afspraak in afspraken:
         res.append({
             'naam': afspraak['naam'],
