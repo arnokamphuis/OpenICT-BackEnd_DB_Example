@@ -1,27 +1,29 @@
 function get_afspraken() {
   fetch('http://127.0.0.1:5000/afspraken')
-      .then((response) => {
-        return response.json();
-      })
-      .then((afspraken) => {
-        var table = document.getElementById('afspraken');
+    .then((response) => {
+      return response.json();
+    })
+    .then((afspraken) => {
+      var table = document.getElementById('afspraken');
+      let header = table.createTHead();
+      var row = header.insertRow(0);
+      var cell1 = row.insertCell(0);
+      var cell2 = row.insertCell(1);
+      cell1.innerHTML = '<strong>naam</strong>';
+      cell2.innerHTML = '<strong>tijdstip</strong>';
 
-        var row = table.insertRow(0);
+      let body = table.createTBody();
+      let c = 0;
+      for (afspraak of afspraken) {
+        console.log(afspraak);
+        var row = body.insertRow();
         var cell1 = row.insertCell(0);
         var cell2 = row.insertCell(1);
-        cell1.innerHTML = '<strong>naam</strong>';
-        cell2.innerHTML = '<strong>tijdstip</strong>';
-
-        let c = 1;
-        for (afspraak of afspraken) {
-          var row = table.insertRow(c);
-          var cell1 = row.insertCell(0);
-          var cell2 = row.insertCell(1);
-          cell1.innerHTML = afspraak['naam'];
-          cell2.innerHTML = afspraak['tijdstip'];
-          c += 1;
-        }
-      });
+        cell1.innerHTML = afspraak['naam'];
+        cell2.innerHTML = afspraak['tijdstip'];
+        c += 1;
+      }
+    });
 }
 
 function clear_afspraak() {
@@ -31,7 +33,13 @@ function clear_afspraak() {
 }
 
 function set_afspraak_response(resp) {
-  document.getElementById('response').innerHTML = resp;
+  let response = document.getElementById('response');
+  response.innerHTML = resp;
+  if (resp = "") {
+    response.style.display = 'none';
+  } else {
+    response.style.display = 'inline';
+  }
 }
 
 function maak_afspraak() {
@@ -55,23 +63,23 @@ function maak_afspraak() {
 
   set_afspraak_response('');
 
-  let jsondata = {'naam': naam, 'email': email, 'tijdstip': tijdstip};
+  let jsondata = { 'naam': naam, 'email': email, 'tijdstip': tijdstip };
 
   fetch('http://127.0.0.1:5000/afspraak', {
     method: 'POST',
-    headers: {'Accept': 'application/json', 'Content-Type': 'application/json'},
+    headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
     body: JSON.stringify(jsondata)
   })
-      .then((response) => {
-        return response.json();
-      })
-      .then((result) => {
-        if (!result['success']) {
-          set_afspraak_response(
-              'Probleem met het maken van een afspraak: ' + result['reason']);
-        } else {
-          set_afspraak_response('Afspraak is gemaakt!');
-          clear_afspraak();
-        }
-      });
+    .then((response) => {
+      return response.json();
+    })
+    .then((result) => {
+      if (!result['success']) {
+        set_afspraak_response(
+          'Probleem met het maken van een afspraak: ' + result['reason']);
+      } else {
+        set_afspraak_response('Afspraak is gemaakt!');
+        clear_afspraak();
+      }
+    });
 }
